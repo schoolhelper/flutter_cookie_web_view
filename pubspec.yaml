@@ -1,8 +1,8 @@
 name: cookie_web_view
-description: A plugin for listen real web view cookie
-version: 0.0.1
-author:
-homepage:
+description: A plugin for listen real web view cookie. You can use the plugin for the auth by social media. Originaly the plugin created for https://github.com/jordan1997/radio-t-client
+version: 0.0.2
+author: Vova Stelmashchuk <vovochkastelmashchuk@gmail.com>
+homepage: https://github.com/schoolhelper/flutter_cookie_web_view
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
