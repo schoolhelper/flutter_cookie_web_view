@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Point
 import android.util.Log
+import android.view.ViewGroup
 import android.webkit.CookieManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -21,6 +22,7 @@ class CookieWebViewPlugin(
 ) : MethodCallHandler {
 
     companion object {
+
         lateinit var channel: MethodChannel
 
         @JvmStatic
@@ -37,8 +39,16 @@ class CookieWebViewPlugin(
     ) {
         when (call.method) {
             "openWebView" -> openUrl(call)
+            "closeWebView" -> close()
             else -> result.notImplemented()
         }
+    }
+
+    private val webView = WebView(context)
+
+    private fun close() {
+        val viewGroup = webView.parent as ViewGroup
+        viewGroup.removeView(webView)
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -54,8 +64,6 @@ class CookieWebViewPlugin(
         val height = size.y
         val params = FrameLayout.LayoutParams(width, height)
 
-        val webView = WebView(context)
-
         activity.addContentView(webView, params)
 
         webView.settings.javaScriptEnabled = true
@@ -67,7 +75,7 @@ class CookieWebViewPlugin(
                 super.onPageFinished(view, url)
                 val cookie = CookieManager.getInstance()
                     .getCookie(url)
-                Log.e("TAG", cookie)
+
                 channel.invokeMethod("onCookieChange", cookie)
             }
         }

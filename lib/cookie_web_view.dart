@@ -5,14 +5,18 @@ import 'package:flutter/services.dart';
 class CookieWebView {
   final MethodChannel _channel;
 
-  // Reload webview with a url
   Future<Null> openUrl(String url) async {
     await _channel.invokeMethod('openWebView', {'url': url});
   }
 
+  Future<Null> close() async {
+    await _channel.invokeMethod('closeWebView');
+  }
+
   factory CookieWebView() {
     if (_instance == null) {
-      const MethodChannel methodChannel = const MethodChannel('cookie_web_view');
+      const MethodChannel methodChannel =
+          const MethodChannel('cookie_web_view');
       _instance = CookieWebView.private(methodChannel);
     }
     return _instance;
@@ -24,7 +28,11 @@ class CookieWebView {
     _channel.setMethodCallHandler(_handleMessages);
   }
 
+  final _onCookieChange = StreamController<String>.broadcast();
+
   Future<Null> _handleMessages(MethodCall call) async {
-    print("----------- ${call}");
+    _onCookieChange.add(call.arguments);
   }
+
+  Stream<String> get onCookieChange => _onCookieChange.stream;
 }

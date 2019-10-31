@@ -17,7 +17,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final cookieWebView = CookieWebView();
-    cookieWebView.openUrl('https://remark42.radio-t.com/auth/github/login?&site=radiot');
+    cookieWebView
+        .openUrl('https://remark42.radio-t.com/auth/github/login?&site=radiot');
+
+    cookieWebView.onCookieChange.listen((cookie) {
+      print("test $cookie");
+      if (cookie.contains("JWT")) {
+        print("test in if");
+        cookieWebView.close();
+      }
+    });
 
     return MaterialApp(
       home: Scaffold(
