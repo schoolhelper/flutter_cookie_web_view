@@ -1,30 +1,62 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class CookieWebPlugin {
-  final MethodChannel _channel;
+typedef void WebViewCreatedCallback(CookieWebViewController controller);
 
-  factory CookieWebPlugin() {
-    if (_instance == null) {
-      const MethodChannel methodChannel =
-          const MethodChannel('cookie_web_view');
-      _instance = CookieWebPlugin.private(methodChannel);
+class CookieWebView extends StatefulWidget {
+  const CookieWebView({
+    Key key,
+    this.onWebViewCreated,
+  }) : super(key: key);
+
+  final WebViewCreatedCallback onWebViewCreated;
+
+  @override
+  State<StatefulWidget> createState() => _CookieWebViewState();
+}
+
+class _CookieWebViewState extends State<CookieWebView> {
+  @override
+  Widget build(BuildContext context) {
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      return AndroidView(
+        viewType: 'cookie_web_view',
+        onPlatformViewCreated: _onPlatformViewCreated,
+      );
     }
-    return _instance;
+    return Text(
+        '$defaultTargetPlatform is not yet supported by the text_view plugin');
   }
 
-  static CookieWebPlugin _instance;
-
-  CookieWebPlugin.private(this._channel) {
-    _channel.setMethodCallHandler(_handleMessages);
+  void _onPlatformViewCreated(int id) {
+    if (widget.onWebViewCreated == null) {
+      return;
+    }
+    widget.onWebViewCreated(new CookieWebViewController._(id));
   }
+}
+
+class CookieWebViewController {
+  MethodChannel _channel;
 
   final _onCookieChange = StreamController<String>.broadcast();
 
-  Future<Null> _handleMessages(MethodCall call) async {
-    _onCookieChange.add(call.arguments);
+  Stream<String> get onCookieChange => _onCookieChange.stream;
+
+  CookieWebViewController._(int id) {
+    _channel = new MethodChannel('cookie_web_view_$id');
+
+    _channel.setMethodCallHandler((call) {
+      _onCookieChange.add(call.arguments);
+      return Future.value(null);
+    });
   }
 
-  Stream<String> get onCookieChange => _onCookieChange.stream;
+  Future<void> openUrl(String url) async {
+    assert(url != null);
+    return _channel.invokeMethod('open', {'url': url});
+  }
 }

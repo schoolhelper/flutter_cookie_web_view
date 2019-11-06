@@ -2,13 +2,13 @@
 
 A plugin for listen real web view cookie
 
-## Getting Started
+* The plugin does not support only android at the moment
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+The plugin created for listening all web view cookies.
+For example for implementing auth by social media into your app.
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+The plugin use a Flutter PlatformView
+
+## API
+- method `openUrl(String)` for open url in a system web view; 
+- And a `onCookieChange` - the stream emit the all cookies like a string
