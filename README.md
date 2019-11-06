@@ -1,4 +1,6 @@
-# cookie_web_view
+# Cookie Web View
+[![Pub](https://img.shields.io/pub/v/cookie_web_view.svg)](https://pub.dartlang.org/packages/cookie_web_view) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A plugin for listen real web view cookie
 
