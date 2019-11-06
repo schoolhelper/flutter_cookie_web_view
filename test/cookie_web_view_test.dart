@@ -18,6 +18,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await CookieWebView.platformVersion, '42');
+    expect(await CookieWebPlugin.platformVersion, '42');
   });
 }

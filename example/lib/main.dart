@@ -1,4 +1,4 @@
-import 'package:cookie_web_view/cookie_web_view.dart';
+import 'package:cookie_web_view_example/cookie_web_view.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -16,9 +16,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    final cookieWebView = CookieWebView();
-    cookieWebView
-        .openUrl('https://remark42.radio-t.com/auth/github/login?&site=radiot');
+    /*final cookieWebView = CookieWebPlugin();
+    cookieWebView.openUrl(
+        url: 'https://remark42.radio-t.com/auth/github/login?&site=radiot');
 
     cookieWebView.onCookieChange.listen((cookie) {
       print("test $cookie");
@@ -26,15 +26,17 @@ class _MyAppState extends State<MyApp> {
         print("test in if");
         cookieWebView.close();
       }
-    });
+    });*/
 
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on'),
+        body: CookieWebView(
+          onWebViewCreated: (controller) {
+            controller.openUrl("https://google.com");
+          },
         ),
       ),
     );
