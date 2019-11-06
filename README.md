@@ -7,7 +7,7 @@ A plugin for listen real web view cookie
 The plugin created for listening all web view cookies.
 For example for implementing auth by social media into your app.
 
-The plugin use a Flutter PlatformView
+The plugin use a AndroidView like a wrapper of system web view.
 
 ## API
 - method `openUrl(String)` for open url in a system web view; 
