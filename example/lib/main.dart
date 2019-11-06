@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
           onWebViewCreated: (CookieWebViewController controller) {
             controller.openUrl("https://google.com");
             controller.onCookieChange.listen((data) {
-              print('cookie : $data');
+              data.forEach((key, value) => print('key : $key, value : $value'));
             });
           },
         ),

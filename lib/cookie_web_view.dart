@@ -42,15 +42,25 @@ class _CookieWebViewState extends State<CookieWebView> {
 class CookieWebViewController {
   MethodChannel _channel;
 
-  final _onCookieChange = StreamController<String>.broadcast();
+  final _onCookieChange = StreamController<Map<String, String>>.broadcast();
 
-  Stream<String> get onCookieChange => _onCookieChange.stream;
+  Stream<Map<String, String>> get onCookieChange => _onCookieChange.stream;
 
   CookieWebViewController._(int id) {
     _channel = new MethodChannel('cookie_web_view_$id');
 
     _channel.setMethodCallHandler((call) {
-      _onCookieChange.add(call.arguments);
+      final String cookies = call.arguments;
+
+      final map = Map<String, String>();
+
+      cookies.split(';').forEach((cookie) {
+        final int splitIndex = cookie.indexOf('=');
+        final String key = cookie.substring(0, splitIndex);
+        final String value = cookie.substring(splitIndex + 1);
+        map[key] = value;
+      });
+      _onCookieChange.add(map);
       return Future.value(null);
     });
   }
