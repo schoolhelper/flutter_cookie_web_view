@@ -27,6 +27,12 @@ class _CookieWebViewState extends State<CookieWebView> {
         onPlatformViewCreated: _onPlatformViewCreated,
       );
     }
+    /*if (defaultTargetPlatform == TargetPlatform.iOS) {
+      return UiKitView(
+        viewType: 'cookie_web_view',
+        onPlatformViewCreated: _onPlatformViewCreated,
+      );
+    }*/
     return Text(
         '$defaultTargetPlatform is not yet supported by the text_view plugin');
   }
