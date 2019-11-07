@@ -4,7 +4,7 @@
 
 A plugin for listen real web view cookie
 
-* The plugin does not support only android at the moment
+* The plugin does support only android at the moment
 
 The plugin created for listening all web view cookies.
 For example for implementing auth by social media into your app.
