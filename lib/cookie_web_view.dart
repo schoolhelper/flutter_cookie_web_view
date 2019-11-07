@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cookie_web_view/cookie_parser.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,14 +59,7 @@ class CookieWebViewController {
     _channel.setMethodCallHandler((call) {
       final String cookies = call.arguments;
 
-      final map = Map<String, String>();
-
-      cookies.split(';').forEach((cookie) {
-        final int splitIndex = cookie.indexOf('=');
-        final String key = cookie.substring(0, splitIndex);
-        final String value = cookie.substring(splitIndex + 1);
-        map[key] = value;
-      });
+      final Map<String, String> map = parseCookies(cookies);
       _onCookieChange.add(map);
       return Future.value(null);
     });
