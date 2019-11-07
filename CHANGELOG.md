@@ -1,3 +1,6 @@
+## 0.2.1
+- Fix cookies parsing
+
 ## 0.2.0
 - Change type of onCookieChange from `String` to `Map<String, String>` 
 
